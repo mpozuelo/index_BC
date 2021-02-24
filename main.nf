@@ -120,7 +120,6 @@ ${summary.collect { k,v -> "            <dt>$k</dt><dd><samp>${v ?: '<span style
 
 
  process modify_samplesheet {
-   publishDir "${cluster_path}/05_QC/${project}/samplesheet/", mode: params.publish_dir_mode
 
    input:
    path samplesheet from ch_input
