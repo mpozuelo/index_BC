@@ -120,6 +120,8 @@ ${summary.collect { k,v -> "            <dt>$k</dt><dd><samp>${v ?: '<span style
 
 
  process modify_samplesheet {
+   label 'process_low'
+
 
    input:
    path samplesheet from ch_input
@@ -174,8 +176,8 @@ ${summary.collect { k,v -> "            <dt>$k</dt><dd><samp>${v ?: '<span style
 
 
 process extraseq {
-  tag "$sample"
-  label 'process_low'
+  tag "$lane"
+  label 'process_medium'
   publishDir "${cluster_path}02_rfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
 
   input:
@@ -196,8 +198,8 @@ process extraseq {
 
 
 process index {
-  tag "$sample"
-  label 'process_low'
+  tag "$lane"
+  label 'process_medium'
   publishDir "${cluster_path}02_rfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
 
   input:
@@ -216,8 +218,8 @@ process index {
 
 
 process index2 {
-  tag "$sample"
-  label 'process_low'
+  tag "$lane"
+  label 'process_medium'
   publishDir "${cluster_path}02_rfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
 
   input:
@@ -236,8 +238,8 @@ process index2 {
 
 
 process bc {
-  tag "$sample"
-  label 'process_low'
+  tag "$lane"
+  label 'process_medium'
   publishDir "${cluster_path}02_rfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
 
   input:
