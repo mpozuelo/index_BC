@@ -186,7 +186,7 @@ process extraseq {
 
   script:
 
-  seqsiz = libsize + 1
+  seqsize = libsize + 1
 
   """
   zcat ${reads[1]} | awk 'NR % 4 == 2' - | cut -c $seqsize- | sort | uniq -c | sort -k1,nr1 | head -1000 > "${run}_${lane}.read2.index.rank.txt"
