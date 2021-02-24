@@ -177,7 +177,7 @@ ${summary.collect { k,v -> "            <dt>$k</dt><dd><samp>${v ?: '<span style
 
 process extraseq {
   tag "$lane"
-  label 'process_medium'
+  label 'process_low'
   publishDir "${cluster_path}02_rfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
 
   input:
@@ -199,7 +199,7 @@ process extraseq {
 
 process index {
   tag "$lane"
-  label 'process_medium'
+  label 'process_low'
   publishDir "${cluster_path}02_rfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
 
   input:
@@ -219,7 +219,7 @@ process index {
 
 process index2 {
   tag "$lane"
-  label 'process_medium'
+  label 'process_low'
   publishDir "${cluster_path}02_rfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
 
   input:
@@ -239,19 +239,21 @@ process index2 {
 
 process bc {
   tag "$lane"
-  label 'process_medium'
+  label 'process_low'
   publishDir "${cluster_path}02_rfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
 
   input:
   set val(run), val(lane), path(reads), val(bcsize), val(indexsize), val(index2size), val(libsize) from ch_bc
 
   output:
-  file("*.txt")
+  file("*.rank.txt")
 
   script:
 
   """
-  zcat ${reads[0]} | awk 'NR % 4 == 2' - | cut -c 1-$bcsize | sort | uniq -c | sort -nr | head -1000 > "${run}_${lane}.read1.BC.${bcsize}bp.rank.txt"
+  zcat ${reads[0]} | awk 'NR % 4 == 2' - > reads.txt
+  cut -c 1-$bcsize reads.txt | sort > bc_sorted.txt
+  uniq -c bc_sorted.txt | sort -nr > "${run}_${lane}.read1.BC.${bcsize}bp.rank.txt"
   """
 
 }
