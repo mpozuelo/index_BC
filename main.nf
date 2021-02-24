@@ -189,7 +189,7 @@ process extraseq {
   seqsize = libsize + 1
 
   """
-  zcat ${reads[1]} | awk 'NR % 4 == 2' - | cut -c $seqsize- | sort | uniq -c | sort -k1,nr1 | head -1000 > "${run}_${lane}.read2.index.rank.txt"
+  zcat ${reads[1]} | awk 'NR % 4 == 2' - | cut -c $seqsize- | sort | uniq -c | sort -nr | head -1000 > "${run}_${lane}.read2.index.rank.txt"
   """
 
 }
@@ -209,7 +209,7 @@ process index {
   script:
 
   """
-  zcat ${reads[1]} | awk 'NR % 4 == 2' - | rev | cut -c -$indexsize | rev | sort | uniq -c | sort -k1,nr1 | head -1000 > "${run}_${lane}.read2.index.rank.txt"
+  zcat ${reads[1]} | awk 'NR % 4 == 2' - | rev | cut -c -$indexsize | rev | sort | uniq -c | sort -nr | head -1000 > "${run}_${lane}.read2.index.rank.txt"
   """
 
 }
@@ -229,7 +229,7 @@ process index2 {
   script:
 
   """
-  zcat ${reads[1]} | awk 'NR % 4 == 2' - | rev | cut -c $indexsize- | cut -c -$index2size | rev | sort | uniq -c | sort -k1,nr1 | head -1000 > "${run}_${lane}.read2.index.rank.txt"
+  zcat ${reads[1]} | awk 'NR % 4 == 2' - | rev | cut -c $indexsize- | cut -c -$index2size | rev | sort | uniq -c | sort -nr | head -1000 > "${run}_${lane}.read2.index.rank.txt"
   """
 
 }
@@ -249,7 +249,7 @@ process bc {
   script:
 
   """
-  zcat ${reads[0]} | awk 'NR % 4 == 2' - | cut -c 1-$bcsize | sort | uniq -c | sort -k1,nr1 | head -1000 > "${run}_${lane}.read1.BC.${bcsize}bp.rank.txt"
+  zcat ${reads[0]} | awk 'NR % 4 == 2' - | cut -c 1-$bcsize | sort | uniq -c | sort -nr | head -1000 > "${run}_${lane}.read1.BC.${bcsize}bp.rank.txt"
   """
 
 }
