@@ -138,15 +138,15 @@ ${summary.collect { k,v -> "            <dt>$k</dt><dd><samp>${v ?: '<span style
 
 
 
- def validate_input(LinkedHashMap lane) {
-   def run = lane.run
-   def lane = lane.lane
-   def bcsize = lane.bc
-   def indexsize = lane.index
-   def index2size = lane.index2
-   def libsize = lane.size
-   def fastq1 = lane.fastq1
-   def fastq2 = lane.fastq2
+ def validate_input(LinkedHashMap line) {
+   def run = line.run
+   def lane = line.lane
+   def bcsize = line.bc
+   def indexsize = line.index
+   def index2size = line.index2
+   def libsize = line.size
+   def fastq1 = line.fastq1
+   def fastq2 = line.fastq2
 
 
 
