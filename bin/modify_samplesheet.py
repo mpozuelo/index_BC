@@ -25,7 +25,7 @@ def add_bed_file(FileIn,FileOut):
     # Open output file
     fo = open(FileOut, 'w')
 
-    basefolder = '/datos/ngs/dato-activo/data/02_fastq/'
+    basefolder = '/datos/ngs/dato-activo/data/02_rfastq/'
     # Dictionary for bed files
         # Write header
     #fo.write("%s\n" %('\t'.join(l_th[1:])))

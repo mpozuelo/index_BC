@@ -176,7 +176,7 @@ ${summary.collect { k,v -> "            <dt>$k</dt><dd><samp>${v ?: '<span style
 process extraseq {
   tag "$sample"
   label 'process_low'
-  publishDir "${cluster_path}/02_pfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
+  publishDir "${cluster_path}/02_rfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
 
   input:
   set val(run), val(lane), path(reads), val(bcsize), val(indexsize), val(index2size), val(libsize) from ch_extra
@@ -198,7 +198,7 @@ process extraseq {
 process index {
   tag "$sample"
   label 'process_low'
-  publishDir "${cluster_path}/02_pfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
+  publishDir "${cluster_path}/02_rfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
 
   input:
   set val(run), val(lane), path(reads), val(bcsize), val(indexsize), val(index2size), val(libsize) from ch_index
@@ -218,7 +218,7 @@ process index {
 process index2 {
   tag "$sample"
   label 'process_low'
-  publishDir "${cluster_path}/02_pfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
+  publishDir "${cluster_path}/02_rfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
 
   input:
   set val(run), val(lane), path(reads), val(bcsize), val(indexsize), val(index2size), val(libsize) from ch_index2
@@ -238,7 +238,7 @@ process index2 {
 process bc {
   tag "$sample"
   label 'process_low'
-  publishDir "${cluster_path}/02_pfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
+  publishDir "${cluster_path}/02_rfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
 
   input:
   set val(run), val(lane), path(reads), val(bcsize), val(indexsize), val(index2size), val(libsize) from ch_bc
