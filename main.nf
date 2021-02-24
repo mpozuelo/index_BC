@@ -148,11 +148,12 @@ ${summary.collect { k,v -> "            <dt>$k</dt><dd><samp>${v ?: '<span style
    def libsize = line.size
    def fastq1 = line.fastq1
    def fastq2 = line.fastq2
+   def platform = line.platform
 
 
 
    def array = []
-   array = [ run, lane, [file(fastq1, checkIfExists: true), file(fastq2, checkIfExists: true)], bcsize, indexsize, index2size, libsize ]
+   array = [ run, lane, platform, [file(fastq1, checkIfExists: true), file(fastq2, checkIfExists: true)], bcsize, indexsize, index2size, libsize ]
 
    return array
  }
@@ -181,7 +182,7 @@ process extraseq {
   publishDir "${cluster_path}02_rfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
 
   input:
-  set val(run), val(lane), path(reads), val(bcsize), val(indexsize), val(index2size), val(libsize) from ch_extra
+  set val(run), val(lane), val(platform), path(reads), val(bcsize), val(indexsize), val(index2size), val(libsize) from ch_extra
 
   output:
   file("*.txt")
@@ -203,15 +204,17 @@ process index {
   publishDir "${cluster_path}02_rfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
 
   input:
-  set val(run), val(lane), path(reads), val(bcsize), val(indexsize), val(index2size), val(libsize) from ch_index
+  set val(run), val(lane), val(platform), path(reads), val(bcsize), val(indexsize), val(index2size), val(libsize) from ch_index
 
   output:
-  file("*.txt")
+  file("*.rank.txt")
 
   script:
 
   """
-  zcat ${reads[1]} | awk 'NR % 4 == 2' - | rev | cut -c -$indexsize | rev | sort | uniq -c | sort -nr | head -1000 > "${run}_${lane}.read2.index.rank.txt"
+  zcat ${reads[1]} | awk 'NR % 4 == 2' - | rev > rev_reads.txt
+  cut -c -$indexsize rev_reads.txt | rev | sort > index_sort.txt
+  uniq -c index_sort.txt | sort -nr > "${run}_${lane}.read2.index.rank.txt"
   """
 
 }
@@ -223,15 +226,18 @@ process index2 {
   publishDir "${cluster_path}02_rfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
 
   input:
-  set val(run), val(lane), path(reads), val(bcsize), val(indexsize), val(index2size), val(libsize) from ch_index2
+  set val(run), val(lane), val(platform), path(reads), val(bcsize), val(indexsize), val(index2size), val(libsize) from ch_index2
 
   output:
-  file("*.txt")
+  file("*.rank.txt")
 
   script:
 
   """
-  zcat ${reads[1]} | awk 'NR % 4 == 2' - | rev | cut -c $indexsize- | cut -c -$index2size | rev | sort | uniq -c | sort -nr | head -1000 > "${run}_${lane}.read2.index.rank.txt"
+  zcat ${reads[1]} | awk 'NR % 4 == 2' - | rev > rev_reads.txt
+  cut -c $indexsize- rev_reads.txt > indexes.txt
+  cut -c -$index2size indexes.txt | rev | sort > index2_sorted.txt
+  uniq -c index2_sorted.txt | sort -nr > "${run}_${lane}.read2.index.rank.txt"
   """
 
 }
@@ -243,7 +249,7 @@ process bc {
   publishDir "${cluster_path}02_rfastq/${platform}/${run}/${lane}/barcodes", mode: 'copy'
 
   input:
-  set val(run), val(lane), path(reads), val(bcsize), val(indexsize), val(index2size), val(libsize) from ch_bc
+  set val(run), val(lane), val(platform), path(reads), val(bcsize), val(indexsize), val(index2size), val(libsize) from ch_bc
 
   output:
   file("*.rank.txt")
