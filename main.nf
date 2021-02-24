@@ -78,8 +78,6 @@ if (!params.outdir) {
 
 cluster_path = params.cluster_path
 
-if (params.genome == "mm10") {
-
 
 // Header log info
 log.info mpozueloHeader()
@@ -118,28 +116,6 @@ ${summary.collect { k,v -> "            <dt>$k</dt><dd><samp>${v ?: '<span style
    return yaml_file
 }
 
-
-
-/*
- * LOAD SAMPLESHEET and assign get the columns we will use for demultiplexing
-
- /*
-  * LOAD SAMPLESHEET and assign get the columns we will use for demultiplexing
-  It contains the following columns:
- 1- Name given to the sample
- 2- Index
- 3- Index2
- 4- Barcode
- 5- Run ID
- 6- Lane
- 7- Sequencing date
- 8- Protocol
- 9- Platform
- 10- Sample Source (place where the samples come from)
- 11- Genome
- 12- User
- 13- Coverage
- */
 
 
 
