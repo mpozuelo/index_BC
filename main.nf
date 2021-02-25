@@ -237,7 +237,7 @@ process index2 {
   zcat ${reads[1]} | awk 'NR % 4 == 2' - | rev > rev_reads.txt
   cut -c $indexsize- rev_reads.txt > indexes.txt
   cut -c -$index2size indexes.txt | rev | sort > index2_sorted.txt
-  uniq -c index2_sorted.txt | sort -nr > "${run}_${lane}.read2.index.rank.txt"
+  uniq -c index2_sorted.txt | sort -nr > "${run}_${lane}.read2.index2.rank.txt"
   """
 
 }
