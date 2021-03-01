@@ -232,7 +232,7 @@ process index2 {
   file("*.rank.txt")
 
   script:
-  idxsize_mod = indexsize + 1
+  idxsize_mod = indexsize.toInteger() + 1
 
   """
   zcat ${reads[1]} | awk 'NR % 4 == 2' - | rev > rev_reads.txt
